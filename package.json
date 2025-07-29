@@ -1,5 +1,5 @@
 {
-  "name": "css-to-tailwindcss",
+  "name": "@barresider/css-to-tailwindcss",
   "version": "1.0.0",
   "description": "CSS to TailwindCSS converter",
   "main": "./lib/index.js",
@@ -44,6 +44,9 @@
     "url": "https://github.com/Barresider/css-to-tailwindcss/issues"
   },
   "homepage": "https://github.com/Barresider/css-to-tailwindcss#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "devDependencies": {
     "@ryansonshine/commitizen": "^4.2.8",
     "@ryansonshine/cz-conventional-changelog": "^3.3.4",
