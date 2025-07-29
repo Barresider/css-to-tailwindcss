@@ -53,6 +53,11 @@ function mapThemeTokens<V>(
     const convertedTokenValue = valueConverterFn(tokenValue, tokenKey);
 
     if (convertedTokenValue) {
+      // If the converted value already exists and the new key is 'DEFAULT',
+      // prioritize the existing specific color name over DEFAULT
+      if (result[convertedTokenValue] && tokenKey === 'DEFAULT') {
+        return;
+      }
       result[convertedTokenValue] = tokenKey;
     }
   });

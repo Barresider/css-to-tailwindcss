@@ -580,4 +580,31 @@ describe('TailwindConverter', () => {
       },
     ]);
   });
+
+  it('should convert border-color #e5e7eb to border-gray-200', async () => {
+    const converter = createTailwindConverter();
+    const css = '.test { border-color: #e5e7eb; }';
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(1);
+    expect(converted.nodes[0].tailwindClasses).toEqual(['border-gray-200']);
+  });
+
+  it('should prioritize specific color names over DEFAULT for other color properties', async () => {
+    const converter = createTailwindConverter();
+    const css = '.test { color: #e5e7eb; }'; // text color should also work
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(1);
+    expect(converted.nodes[0].tailwindClasses).toEqual(['text-gray-200']);
+  });
+
+  it('should work with other gray colors that do not conflict with DEFAULT', async () => {
+    const converter = createTailwindConverter();
+    const css = '.test { border-color: #f3f4f6; }'; // gray-100
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(1);
+    expect(converted.nodes[0].tailwindClasses).toEqual(['border-gray-100']);
+  });
 });
