@@ -1,16 +1,20 @@
 # Reusable workflow for releases; to eject, you can replace this file with
 # https://github.com/ryansonshine/ryansonshine/blob/main/.github/workflows/release.yml
-name: Release
-on:
-  push:
-    branches:
-      - main
-jobs:
-  release:
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-    uses: ryansonshine/ryansonshine/.github/workflows/release.yml@main
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+#
+# DISABLED: This workflow publishes to npm automatically
+# Uncomment and set up NPM_TOKEN secret if you want to publish your own version
+#
+# name: Release
+# on:
+#   push:
+#     branches:
+#       - main
+# jobs:
+#   release:
+#     permissions:
+#       contents: write
+#       issues: write
+#       pull-requests: write
+#     uses: ryansonshine/ryansonshine/.github/workflows/release.yml@main
+#     secrets:
+#       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

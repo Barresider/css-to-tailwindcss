@@ -19,13 +19,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jackardios/css-to-tailwindcss.git"
+    "url": "git+https://github.com/Barresider/css-to-tailwindcss.git"
   },
   "license": "MIT",
   "author": {
     "name": "Salakhutdinov Salavat",
     "email": "salahutdinov.salavat@gmail.com",
-    "url": "https://github.com/jackardios"
+    "url": "https://github.com/Barresider"
   },
   "engines": {
     "node": ">=12.0"
@@ -41,9 +41,9 @@
     "css-to-tailwind"
   ],
   "bugs": {
-    "url": "https://github.com/jackardios/css-to-tailwindcss/issues"
+    "url": "https://github.com/Barresider/css-to-tailwindcss/issues"
   },
-  "homepage": "https://github.com/jackardios/css-to-tailwindcss#readme",
+  "homepage": "https://github.com/Barresider/css-to-tailwindcss#readme",
   "devDependencies": {
     "@ryansonshine/commitizen": "^4.2.8",
     "@ryansonshine/cz-conventional-changelog": "^3.3.4",
