@@ -1,6 +1,6 @@
 {
   "name": "@barresider/css-to-tailwindcss",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CSS to TailwindCSS converter",
   "main": "./lib/index.js",
   "files": [

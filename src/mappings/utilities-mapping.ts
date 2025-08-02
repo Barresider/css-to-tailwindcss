@@ -246,7 +246,7 @@ export const UTILITIES_MAPPING = {
     'scale-down': 'object-scale-down',
   },
   'outline-style': {
-    solid: 'outline',
+    solid: 'outline-solid',
     dashed: 'outline-dashed',
     dotted: 'outline-dotted',
     double: 'outline-double',

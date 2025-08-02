@@ -607,4 +607,21 @@ describe('TailwindConverter', () => {
     expect(converted.nodes.length).toBe(1);
     expect(converted.nodes[0].tailwindClasses).toEqual(['border-gray-100']);
   });
+
+  it('should convert all outline-style values correctly', async () => {
+    const converter = createTailwindConverter();
+    const css = `
+      .solid { outline-style: solid; }
+      .dashed { outline-style: dashed; }
+      .dotted { outline-style: dotted; }
+      .double { outline-style: double; }
+    `;
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(4);
+    expect(converted.nodes[0].tailwindClasses).toEqual(['outline-solid']);
+    expect(converted.nodes[1].tailwindClasses).toEqual(['outline-dashed']);
+    expect(converted.nodes[2].tailwindClasses).toEqual(['outline-dotted']);
+    expect(converted.nodes[3].tailwindClasses).toEqual(['outline-double']);
+  });
 });
