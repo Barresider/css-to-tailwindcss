@@ -417,12 +417,12 @@ export const DECLARATION_CONVERTERS_MAPPING: DeclarationConvertersMapping = {
 
   'background-size': (declaration, config) =>
     config.tailwindConfig.corePlugins.backgroundSize
-      ? convertSizeDeclarationValue(
+      ? convertDeclarationValue(
           declaration.value,
           config.mapping.backgroundSize,
           'bg',
-          config.remInPx,
-          false,
+          declaration.value,
+          'bg-size',
           'length'
         )
       : [],

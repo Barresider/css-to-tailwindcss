@@ -624,4 +624,36 @@ describe('TailwindConverter', () => {
     expect(converted.nodes[2].tailwindClasses).toEqual(['outline-dotted']);
     expect(converted.nodes[3].tailwindClasses).toEqual(['outline-double']);
   });
+
+  it('should convert background-size with arbitrary values to bg-size-[value] not bg-[value]', async () => {
+    const converter = createTailwindConverter();
+    const css = `
+      .test1 { background-size: 50px 50px; }
+      .test2 { background-size: 100% 75%; }
+      .test3 { background-size: auto 50px; }
+    `;
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(3);
+    expect(converted.nodes[0].tailwindClasses).toEqual(['bg-size-[50px_50px]']);
+    expect(converted.nodes[1].tailwindClasses).toEqual(['bg-size-[100%_75%]']);
+    expect(converted.nodes[2].tailwindClasses).toEqual(['bg-size-[auto_50px]']);
+  });
+
+  it('should convert background-size keywords and arbitrary values correctly', async () => {
+    const converter = createTailwindConverter();
+    const css = `
+      .keyword1 { background-size: contain; }
+      .keyword2 { background-size: cover; }
+      .arbitrary1 { background-size: 50px 50px; }
+      .arbitrary2 { background-size: 25% auto; }
+    `;
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(4);
+    expect(converted.nodes[0].tailwindClasses).toEqual(['bg-contain']);
+    expect(converted.nodes[1].tailwindClasses).toEqual(['bg-cover']);
+    expect(converted.nodes[2].tailwindClasses).toEqual(['bg-size-[50px_50px]']);
+    expect(converted.nodes[3].tailwindClasses).toEqual(['bg-size-[25%_auto]']);
+  });
 });
