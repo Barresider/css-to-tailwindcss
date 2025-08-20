@@ -1343,13 +1343,22 @@ export const DECLARATION_CONVERTERS_MAPPING: DeclarationConvertersMapping = {
 
   order: (declaration, config) =>
     config.tailwindConfig.corePlugins.order
-      ? convertSizeDeclarationValue(
-          declaration.value,
-          config.mapping.order,
-          'order',
-          null,
-          true
-        )
+      ? (() => {
+          const normalized = normalizeSizeValue(declaration.value, null);
+          if (normalized === '-9999') {
+            return ['order-first'];
+          }
+          if (normalized === '9999') {
+            return ['order-last'];
+          }
+          return convertSizeDeclarationValue(
+            declaration.value,
+            config.mapping.order,
+            'order',
+            null,
+            true
+          );
+        })()
       : [],
 
   outline: (declaration, config) =>

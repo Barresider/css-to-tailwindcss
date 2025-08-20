@@ -476,7 +476,7 @@ describe('TailwindConverter', () => {
           'xl:active:focus:justify-items-start',
           'xl:active:focus:justify-self-end',
           'motion-safe:custom-screen:supports-flex:opacity-20',
-          'motion-safe:custom-screen:supports-flex:-order-last',
+          'motion-safe:custom-screen:supports-flex:order-first',
           'motion-safe:custom-screen:supports-flex:outline-lime-600',
           'motion-safe:custom-screen:supports-flex:outline-offset-2',
           'motion-safe:custom-screen:supports-flex:outline-dotted',
@@ -655,5 +655,24 @@ describe('TailwindConverter', () => {
     expect(converted.nodes[1].tailwindClasses).toEqual(['bg-cover']);
     expect(converted.nodes[2].tailwindClasses).toEqual(['bg-size-[50px_50px]']);
     expect(converted.nodes[3].tailwindClasses).toEqual(['bg-size-[25%_auto]']);
+  });
+
+  it('should convert order correctly: -9999 -> order-first, 9999 -> order-last, and other values mapped/arbitrary', async () => {
+    const converter = createTailwindConverter();
+    const css = `
+      .a { order: -9999; }
+      .b { order: 9999; }
+      .c { order: -9; }
+      .d { order: 0; }
+      .e { order: 5; }
+    `;
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(5);
+    expect(converted.nodes[0].tailwindClasses).toEqual(['order-first']);
+    expect(converted.nodes[1].tailwindClasses).toEqual(['order-last']);
+    expect(converted.nodes[2].tailwindClasses).toEqual(['-order-9']);
+    expect(converted.nodes[3].tailwindClasses).toEqual(['order-none']);
+    expect(converted.nodes[4].tailwindClasses).toEqual(['order-5']);
   });
 });
