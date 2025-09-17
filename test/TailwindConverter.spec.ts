@@ -675,4 +675,15 @@ describe('TailwindConverter', () => {
     expect(converted.nodes[3].tailwindClasses).toEqual(['order-none']);
     expect(converted.nodes[4].tailwindClasses).toEqual(['order-5']);
   });
+
+  it('should convert translateY with calc to translate-y-[calc(...)]', async () => {
+    const converter = createTailwindConverter();
+    const css = '.test { transform: translateY(calc(100% + 3.5rem + 1px)); }';
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(1);
+    expect(converted.nodes[0].tailwindClasses).toEqual([
+      'translate-y-[calc(100%_+_3.5rem_+_1px)]',
+    ]);
+  });
 });

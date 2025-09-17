@@ -1,6 +1,6 @@
 import { parseCSSFunction } from './parseCSSFunction';
 
-const cssFunctionRegexp = /(?<name>[\w-]+)\((?<value>.*?)\)/gm;
+const cssFunctionRegexp = /([\w-]+)\(((?:[^()]|\([^()]*\))*)\)/gm;
 
 export function parseCSSFunctions(value: string) {
   return (
