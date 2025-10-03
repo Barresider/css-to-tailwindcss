@@ -686,4 +686,23 @@ describe('TailwindConverter', () => {
       'translate-y-[calc(100%_+_3.5rem_+_1px)]',
     ]);
   });
+
+  it('should convert ::placeholder pseudo-element to placeholder: prefix', async () => {
+    const converter = createTailwindConverter();
+    const css = `
+      input::placeholder {
+        font-size: 16px;
+        color: #9ca3af;
+        opacity: 0.5;
+      }
+    `;
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(1);
+    expect(converted.nodes[0].tailwindClasses).toEqual([
+      'placeholder:text-base',
+      'placeholder:text-gray-400',
+      'placeholder:opacity-50',
+    ]);
+  });
 });

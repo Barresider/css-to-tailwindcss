@@ -37,4 +37,5 @@ export const PSEUDOS_MAPPING = {
   selection: 'selection',
   'file-selector-button': 'file',
   backdrop: 'backdrop',
+  placeholder: 'placeholder',
 };
