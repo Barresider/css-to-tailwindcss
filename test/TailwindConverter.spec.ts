@@ -705,4 +705,21 @@ describe('TailwindConverter', () => {
       'placeholder:opacity-50',
     ]);
   });
+
+  it('should convert background-image with data URL containing SVG without breaking the SVG structure', async () => {
+    const converter = createTailwindConverter();
+    const css =
+      ".test { background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='none' stroke='%23A2F1A6' stroke-dasharray='6, 14' stroke-linecap='round' stroke-width='4'/%3E%3C/svg%3E\"); }";
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(1);
+
+    const tailwindClass = converted.nodes[0].tailwindClasses[0];
+
+    expect(tailwindClass).toBeDefined();
+    expect(tailwindClass).toMatch(/^bg-\[url\(/);
+    expect(tailwindClass).not.toContain('svg_xmlns');
+    expect(tailwindClass).not.toContain('rect_width');
+    expect(tailwindClass).not.toContain('stroke_dasharray');
+  });
 });

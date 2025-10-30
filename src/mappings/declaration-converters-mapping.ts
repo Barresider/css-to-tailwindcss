@@ -12,7 +12,18 @@ import { removeUnnecessarySpaces } from '../utils/removeUnnecessarySpaces';
 import { isCSSVariable } from '../utils/isCSSVariable';
 
 export function prepareArbitraryValue(value: string) {
-  return normalizeValue(value).replace(/_/g, '\\_').replace(/\s+/g, '_');
+  const normalized = normalizeValue(value);
+
+  if (normalized.match(/url\(['"]?data:/)) {
+    return normalized
+      .replace(/_/g, '\\_')
+      .replace(/url\((['"]?)data:([^)]+)\1\)/g, (match, quote, dataUrl) => {
+        const encodedDataUrl = dataUrl.replace(/\s+/g, '%20');
+        return `url(${quote}data:${encodedDataUrl}${quote})`;
+      });
+  }
+
+  return normalized.replace(/_/g, '\\_').replace(/\s+/g, '_');
 }
 
 type CSSDataType =
