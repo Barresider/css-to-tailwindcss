@@ -69,11 +69,32 @@ class TailwindClassesReductionManager {
     },
   };
 
+  protected knownPrefixes: string[] = [];
+
+  constructor() {
+    this.knownPrefixes = this.extractKnownPrefixes(this.map);
+  }
+
+  protected extractKnownPrefixes(
+    obj: Record<string, any>,
+    prefixes: string[] = []
+  ): string[] {
+    Object.keys(obj).forEach(key => {
+      prefixes.push(key);
+      if (isObject(obj[key]) && !Array.isArray(obj[key])) {
+        this.extractKnownPrefixes(obj[key], prefixes);
+      }
+    });
+    return prefixes.sort((a, b) => b.length - a.length);
+  }
+
   appendClassName(className: string) {
     const { value, classPrefix } = this.parseTailwindClass(className);
 
     if (!value || !this.recursiveSetValue(classPrefix, value, this.map)) {
-      this.resolvedClasses.push(className);
+      if (!this.resolvedClasses.includes(className)) {
+        this.resolvedClasses.push(className);
+      }
     }
   }
 
@@ -196,6 +217,10 @@ class TailwindClassesReductionManager {
       classPrefix = `-${classPrefix}`;
     }
 
+    if (value === 'DEFAULT') {
+      return classPrefix;
+    }
+
     return `${classPrefix}-${value}`;
   }
 
@@ -203,6 +228,23 @@ class TailwindClassesReductionManager {
     const isNegativeValue = tailwindClass.startsWith('-');
     if (isNegativeValue) {
       tailwindClass = tailwindClass.substring(1);
+    }
+
+    for (const knownPrefix of this.knownPrefixes) {
+      if (tailwindClass === knownPrefix) {
+        return {
+          value: 'DEFAULT',
+          classPrefix: knownPrefix,
+        };
+      }
+
+      if (tailwindClass.startsWith(knownPrefix + '-')) {
+        const absoluteValue = tailwindClass.slice(knownPrefix.length + 1);
+        return {
+          value: isNegativeValue ? `-${absoluteValue}` : absoluteValue,
+          classPrefix: knownPrefix,
+        };
+      }
     }
 
     const lastDashIndex = tailwindClass.lastIndexOf('-');

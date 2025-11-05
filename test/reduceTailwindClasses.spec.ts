@@ -294,7 +294,7 @@ describe('reduceTailwindClasses()', () => {
         'border-b-13',
         'border-x1',
       ])
-    ).toEqual(['foo', 'bar', 'border-d-18', 'border-13', 'border-x1']);
+    ).toEqual(['foo', 'bar', 'border-13', 'border-d-18', 'border-x1']);
 
     expect(
       reduceTailwindClasses([
@@ -311,8 +311,8 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'border-d-18',
       'border-13',
+      'border-d-18',
       'border-3',
       'border-x1',
     ]);
@@ -328,7 +328,7 @@ describe('reduceTailwindClasses()', () => {
         '-border-b-3',
         'border-x1',
       ])
-    ).toEqual(['foo', 'bar', 'border-d-18', '-border-3', 'border-x1']);
+    ).toEqual(['foo', 'bar', '-border-3', 'border-d-18', 'border-x1']);
 
     expect(
       reduceTailwindClasses([
@@ -344,9 +344,9 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'border-d-18',
       'border-x-3',
       '-border-y-12',
+      'border-d-18',
       'border-x1',
     ]);
 
@@ -364,10 +364,10 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'border-d-18',
       '-border-t-12',
       'border-b-12',
       'border-x-3',
+      'border-d-18',
       'border-x1',
     ]);
 
@@ -385,11 +385,11 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'border-d-18',
       'border-l-3',
       '-border-r-3',
       '-border-t-12',
       'border-b-12',
+      'border-d-18',
       'border-x1',
     ]);
 
@@ -402,7 +402,7 @@ describe('reduceTailwindClasses()', () => {
         'border-y-12',
         'border-x1',
       ])
-    ).toEqual(['foo', 'bar', 'border-d-18', 'border-12', 'border-x1']);
+    ).toEqual(['foo', 'bar', 'border-12', 'border-d-18', 'border-x1']);
 
     expect(
       reduceTailwindClasses([
@@ -416,9 +416,9 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'border-d-18',
       'border-x-36',
       '-border-y-12',
+      'border-d-18',
       'border-x1',
     ]);
 
@@ -438,8 +438,8 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'border-d-18',
       'border-13',
+      'border-d-18',
       'border-3',
       'border-x1',
     ]);
@@ -460,9 +460,9 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'border-d-18',
       'border-l-13',
       'border-y-13',
+      'border-d-18',
       'border-15',
       'border-3',
       'border-x1',
@@ -482,7 +482,7 @@ describe('reduceTailwindClasses()', () => {
         'bottom-13',
         'inset-x1',
       ])
-    ).toEqual(['foo', 'bar', 'inset-d-18', 'inset-13', 'inset-x1']);
+    ).toEqual(['foo', 'bar', 'inset-13', 'inset-d-18', 'inset-x1']);
 
     expect(
       reduceTailwindClasses([
@@ -496,7 +496,7 @@ describe('reduceTailwindClasses()', () => {
         'inset-x1',
         'bottom-13',
       ])
-    ).toEqual(['foo', 'bar', 'inset-d-18', 'inset-13', 'inset-3', 'inset-x1']);
+    ).toEqual(['foo', 'bar', 'inset-13', 'inset-d-18', 'inset-3', 'inset-x1']);
 
     expect(
       reduceTailwindClasses([
@@ -509,7 +509,7 @@ describe('reduceTailwindClasses()', () => {
         '-bottom-3',
         'inset-x1',
       ])
-    ).toEqual(['foo', 'bar', 'inset-d-18', '-inset-3', 'inset-x1']);
+    ).toEqual(['foo', 'bar', '-inset-3', 'inset-d-18', 'inset-x1']);
 
     expect(
       reduceTailwindClasses([
@@ -525,9 +525,9 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'inset-d-18',
       'inset-x-3',
       '-inset-y-12',
+      'inset-d-18',
       'inset-x1',
     ]);
 
@@ -545,10 +545,10 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'inset-d-18',
       '-top-12',
       'bottom-12',
       'inset-x-3',
+      'inset-d-18',
       'inset-x1',
     ]);
 
@@ -566,11 +566,11 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'inset-d-18',
       'left-3',
       '-right-3',
       '-top-12',
       'bottom-12',
+      'inset-d-18',
       'inset-x1',
     ]);
 
@@ -583,7 +583,7 @@ describe('reduceTailwindClasses()', () => {
         'inset-y-12',
         'inset-x1',
       ])
-    ).toEqual(['foo', 'bar', 'inset-d-18', 'inset-12', 'inset-x1']);
+    ).toEqual(['foo', 'bar', 'inset-12', 'inset-d-18', 'inset-x1']);
 
     expect(
       reduceTailwindClasses([
@@ -597,9 +597,9 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'inset-d-18',
       'inset-x-36',
       '-inset-y-12',
+      'inset-d-18',
       'inset-x1',
     ]);
 
@@ -616,7 +616,7 @@ describe('reduceTailwindClasses()', () => {
         'bottom-13',
         'inset-x1',
       ])
-    ).toEqual(['foo', 'bar', 'inset-d-18', 'inset-13', 'inset-3', 'inset-x1']);
+    ).toEqual(['foo', 'bar', 'inset-13', 'inset-d-18', 'inset-3', 'inset-x1']);
 
     expect(
       reduceTailwindClasses([
@@ -634,9 +634,9 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'inset-d-18',
       'left-13',
       'inset-y-13',
+      'inset-d-18',
       'inset-15',
       'inset-3',
       'inset-x1',
@@ -672,18 +672,18 @@ describe('reduceTailwindClasses()', () => {
     ).toEqual([
       'foo',
       'bar',
-      'inset-d-18',
-      'border-d-18',
       '-pt-3',
       'pb-15',
       '-px-3',
       'border-l-13',
       'border-y-13',
       'border-3',
+      'border-d-18',
       'border-15',
       'border-x1',
       'left-13',
       'inset-y-13',
+      'inset-d-18',
       'inset-15',
       'inset-3',
       'inset-x1',

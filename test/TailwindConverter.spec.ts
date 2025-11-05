@@ -292,7 +292,6 @@ describe('TailwindConverter', () => {
           'motion-safe:custom-screen:supports-flex:leading-snug',
           'motion-safe:custom-screen:supports-flex:list-inside',
           'motion-safe:custom-screen:supports-flex:list-decimal',
-          'motion-safe:custom-screen:supports-flex:mb-[-0.875rem]',
           'motion-safe:custom-screen:supports-flex:max-h-full',
           'motion-safe:custom-screen:supports-flex:max-w-screen-2xl',
           'motion-safe:custom-screen:supports-flex:min-h-fit',
@@ -304,6 +303,7 @@ describe('TailwindConverter', () => {
           'motion-safe:custom-screen:supports-flex:mr-[1vh]',
           'motion-safe:custom-screen:supports-flex:mt-3',
           'motion-safe:custom-screen:supports-flex:mt-[3vw]',
+          'motion-safe:custom-screen:supports-flex:mb-[-0.875rem]',
           'motion-safe:custom-screen:supports-flex:-mb-2.5',
           'motion-safe:custom-screen:supports-flex:mx-6',
           'motion-safe:custom-screen:supports-flex:left-2',
@@ -340,7 +340,6 @@ describe('TailwindConverter', () => {
           'lg:disabled:bg-no-repeat',
           'lg:disabled:bg-contain',
           'lg:disabled:border-b-2',
-          'after:border-spacing-[5%]',
           'after:rounded-full',
           'after:border-l-[3px]',
           'after:border-l-transparent',
@@ -349,10 +348,11 @@ describe('TailwindConverter', () => {
           'after:border-r-[aqua]',
           'after:border-r-8',
           'after:border-dashed',
-          'after:border-t-[some-invalid-value]',
+          'after:border-spacing-[5%]',
           'after:flex-1',
           'after:rounded-tl-none',
           'after:rounded-tr-[0.25%]',
+          'after:border-t-[some-invalid-value]',
           'after:border-t-[current]',
           'after:border-t-[100vh]',
           'after:border-dotted',
@@ -493,11 +493,11 @@ describe('TailwindConverter', () => {
       {
         rule: expect.objectContaining({ selector: '.foo div > [data-zoo]' }),
         tailwindClasses: [
-          'border',
           'pl-[25%]',
           'pr-[1.5em]',
           'pt-0',
           'pb-px',
+          'border',
           'bottom-full',
         ],
       },
@@ -505,19 +505,19 @@ describe('TailwindConverter', () => {
         rule: expect.objectContaining({ selector: '.loving .bar > .testing' }),
         tailwindClasses: [
           "lg:bg-[url('/some-path/to/large\\_image.jpg')]",
-          'lg:border-custom-color-gold',
-          'lg:border-b-custom-color-200',
-          'lg:border-b-[length:var(--some-size)]',
-          'lg:border-neutral-600',
-          'lg:border-t-custom-color-400',
           'lg:rounded-br-sm',
           'lg:rounded-bl',
+          'lg:border-t-custom-color-400',
           'lg:border-b-[2em]',
+          'lg:border-b-custom-color-200',
           'lg:border-b-[#ff0000]',
+          'lg:border-b-[length:var(--some-size)]',
           'lg:border-4',
           'lg:border-solid',
+          'lg:border-custom-color-gold',
           'lg:border-dashed',
           'lg:border-separate',
+          'lg:border-neutral-600',
         ],
       },
       {
@@ -721,5 +721,28 @@ describe('TailwindConverter', () => {
     expect(tailwindClass).not.toContain('svg_xmlns');
     expect(tailwindClass).not.toContain('rect_width');
     expect(tailwindClass).not.toContain('stroke_dasharray');
+  });
+
+  it('should merge border classes correctly', async () => {
+    const converter = createTailwindConverter();
+    const css = `
+      .test {
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-top-style: solid;
+        border-right-style: solid;
+        border-bottom-style: solid;
+        border-left-style: solid;
+        border-top-color: #e5e7eb;
+        border-bottom-color: #e5e7eb;
+      }
+    `;
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(1);
+    expect(converted.nodes[0].tailwindClasses).toContain('border-y-gray-200');
+    expect(converted.nodes[0].tailwindClasses).toContain('border');
   });
 });
