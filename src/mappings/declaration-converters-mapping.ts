@@ -17,10 +17,18 @@ export function prepareArbitraryValue(value: string) {
   if (normalized.match(/url\(['"]?data:/)) {
     return normalized
       .replace(/_/g, '\\_')
-      .replace(/url\((['"]?)data:([^)]+)\1\)/g, (match, quote, dataUrl) => {
-        const encodedDataUrl = dataUrl.replace(/\s+/g, '%20');
-        return `url(${quote}data:${encodedDataUrl}${quote})`;
-      });
+      .replace(
+        /url\(("data:(?:[^"\\]|\\.)*")\)|url\(('data:(?:[^'\\]|\\.)*')\)|url\((data:[^)]*)\)/g,
+        (match, doubleQuoted, singleQuoted, unquoted) => {
+          const dataUrl = doubleQuoted || singleQuoted || unquoted;
+          const quote = doubleQuoted ? '"' : singleQuoted ? "'" : '';
+          const innerUrl = dataUrl
+            .slice(quote ? 1 : 0, quote ? -1 : undefined)
+            .slice(5);
+          const encodedDataUrl = innerUrl.replace(/\s+/g, '%20');
+          return `url(${quote}data:${encodedDataUrl}${quote})`;
+        }
+      );
   }
 
   return normalized.replace(/_/g, '\\_').replace(/\s+/g, '_');

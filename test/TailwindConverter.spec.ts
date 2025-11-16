@@ -745,4 +745,55 @@ describe('TailwindConverter', () => {
     expect(converted.nodes[0].tailwindClasses).toContain('border-y-gray-200');
     expect(converted.nodes[0].tailwindClasses).toContain('border');
   });
+
+  it('should merge all four border colors into a single class', async () => {
+    const converter = createTailwindConverter();
+    const css = `
+      .test {
+        border-top-color: #dc2626;
+        border-right-color: #dc2626;
+        border-bottom-color: #dc2626;
+        border-left-color: #dc2626;
+      }
+    `;
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(1);
+    expect(converted.nodes[0].tailwindClasses).toContain('border-red-600');
+    expect(converted.nodes[0].tailwindClasses).not.toContain(
+      'border-t-red-600'
+    );
+    expect(converted.nodes[0].tailwindClasses).not.toContain(
+      'border-r-red-600'
+    );
+    expect(converted.nodes[0].tailwindClasses).not.toContain(
+      'border-b-red-600'
+    );
+    expect(converted.nodes[0].tailwindClasses).not.toContain(
+      'border-l-red-600'
+    );
+  });
+
+  it('should convert background-image with inline SVG data URL with spaces in path data', async () => {
+    const converter = createTailwindConverter();
+    const css = `.test {
+  image-rendering: pixelated;
+  flex-shrink: 0;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" viewBox=\\"0 0 16 16.261\\" overflow=\\"visible\\"><g><path d=\\"M 4.099 5.466 L 7.319 8.696 L 7.319 0 L 8.67 0 L 8.67 8.696 L 11.9 5.466 L 12.748 6.315 L 8.35 10.722 L 7.649 10.722 L 3.25 6.315 Z\\" fill=\\"rgb(9,23,23)\\"></path><path d=\\"M 0 10.722 L 1.23 10.722 L 1.23 15.03 L 14.77 15.03 L 14.77 10.722 L 16 10.722 L 16 16.261 L 0 16.261 Z\\" fill=\\"rgb(9,23,23)\\"></path></g></svg>");
+  transform: none;
+  transform-origin: 50% 50% 0px;
+}`;
+    const converted = await converter.convertCSS(css);
+
+    expect(converted.nodes.length).toBe(1);
+    const classes = converted.nodes[0].tailwindClasses;
+
+    expect(classes).toContain('shrink-0');
+    expect(classes).toContain('bg-size-[100%_100%]');
+
+    const bgImageClass = classes.find(c => c.startsWith('bg-[url('));
+    expect(bgImageClass).toBeDefined();
+    expect(bgImageClass).not.toContain(' ');
+  });
 });
